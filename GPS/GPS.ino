@@ -15,28 +15,21 @@ void setup(){
 }
 
 void loop(){
+   if (nmeaSerial.available()) {  
+     if (nmeaDecoder.decode(nmeaSerial.read())) {  // if we get a valid NMEA sentence  
+       Serial.println(nmeaDecoder.sentence()); 
 
-  //incomingByte = Serial.read();    // read incoming
-  //Serial.print(incomingByte);  // send incoming
-  //incomingByte = nmeaSerial.read();    // read incoming
-  //Serial.print(incomingByte);
- if (nmeaSerial.available()) {  
-   if (nmeaDecoder.decode(nmeaSerial.read())) {  // if we get a valid NMEA sentence  
-     Serial.println(nmeaDecoder.sentence()); 
-    
-     char *t = nmeaDecoder.term(0);
-     Serial.print("Sentence: ");
-     Serial.println(t);
-     if( t[4] == 'C')
-     {  
-        char* t0 = nmeaDecoder.term(3);
-        char* t1 = nmeaDecoder.term(5);
-        Serial.print("Latitude: ");
-        Serial.println(t0);
-        Serial.print("Longitude: ");
-        Serial.println(t1);
-      } 
+       char *t = nmeaDecoder.term(0);
+       Serial.print("Sentence: ");
+       Serial.println(t);
+       if( t[4] == 'C') {  
+          char* t0 = nmeaDecoder.term(3);
+          char* t1 = nmeaDecoder.term(5);
+          Serial.print("Latitude: ");
+          Serial.println(t0);
+          Serial.print("Longitude: ");
+          Serial.println(t1);
+       } 
      }  
-   }  
- 
+   }
 }
